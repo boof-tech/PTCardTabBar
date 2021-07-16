@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol CardTabBarDelegate: class {
+protocol CardTabBarDelegate: AnyObject {
     func cardTabBar(_ sender: PTCardTabBar, didSelectItemAt index: Int)
 }
 
@@ -92,7 +92,7 @@ open class PTCardTabBar: UIView {
         self.layer.shadowOpacity = 0.15
         
         indicatorViewYConstraint?.isActive = false
-        indicatorViewYConstraint = indicatorView.topAnchor.constraint(equalTo: stackView.bottomAnchor, constant: -10.5)
+        indicatorViewYConstraint = indicatorView.topAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 0.5)
         indicatorViewYConstraint.isActive = true
         
         tintColorDidChange()
@@ -100,7 +100,7 @@ open class PTCardTabBar: UIView {
     
     func add(item: UITabBarItem){
         self.items.append(item)
-        self.addButton(with: item.image!)
+        self.addButton(with: item.image!, item: item)
     }
     
     func remove(item: UITabBarItem){
@@ -111,13 +111,14 @@ open class PTCardTabBar: UIView {
         }
     }
     
-    private func addButton(with image: UIImage){
+    private func addButton(with image: UIImage, item: UITabBarItem){
         let button = PTBarButton(image: image)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.selectedColor = tintColor
-        
+        button.title = item.title ?? ""
         button.addTarget(self, action: #selector(buttonTapped(sender:)), for: .touchUpInside)
         self.stackView.addArrangedSubview(button)
+        button.constraint(height: 35)
     }
     
     func select(at index: Int, notifyDelegate: Bool = true){
@@ -147,9 +148,9 @@ open class PTCardTabBar: UIView {
         
         for item in items {
             if let image = item.image {
-                addButton(with: image)
+                addButton(with: image, item: item)
             } else {
-                addButton(with: UIImage())
+                addButton(with: UIImage(), item: item)
             }
         }
         

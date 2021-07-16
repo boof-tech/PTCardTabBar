@@ -48,8 +48,8 @@ open class PTCardTabBarController: UITabBarController {
         }
     }
     
-    fileprivate var bottomSpacing: CGFloat = 20
-    fileprivate var tabBarHeight: CGFloat = 70
+    fileprivate var bottomSpacing: CGFloat = 10
+    fileprivate var tabBarHeight: CGFloat = 50
     fileprivate var horizontleSpacing: CGFloat = 20
     
     override open func viewDidLoad() {
