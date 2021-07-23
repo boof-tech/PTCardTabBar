@@ -8,6 +8,13 @@
 
 import UIKit
 
+var hasTopNotch: Bool {
+    if #available(iOS 11.0, tvOS 11.0, *) {
+        return UIApplication.shared.delegate?.window??.safeAreaInsets.top ?? 0 > 20
+    }
+    return false
+}
+
 open class PTCardTabBarController: UITabBarController {
     
     @IBInspectable public var tintColor: UIColor? {
@@ -48,7 +55,7 @@ open class PTCardTabBarController: UITabBarController {
         }
     }
     
-    fileprivate var bottomSpacing: CGFloat = -10
+    fileprivate var bottomSpacing: CGFloat = hasTopNotch ? -10 : 10
     fileprivate var tabBarHeight: CGFloat = 50
     fileprivate var horizontleSpacing: CGFloat = 20
     
